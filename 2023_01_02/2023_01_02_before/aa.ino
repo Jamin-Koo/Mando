@@ -20,7 +20,6 @@ int32_t target_Pos = 0;
 int32_t pos_error = 0;
 int32_t pos_error_old = 0;
 int32_t pos_error_d = 0;
-int32_t pos_error_sum = 0;
 
 volatile float angular_speed = 0;
 volatile float angular_speed_old = 0;
@@ -31,10 +30,6 @@ float angular_speed_error_old = 0;
 float angular_speed_error_d = 0;
 double angular_speed_error_sum = 0;
 
-//PID Control P = 5.8 Pd = 8.2  Pi = 0.25 
-float P = 3.0;
-float Pd = 5.0;
-float Pi = 0.25;
 
 // PID gain angular speed control 0.8 / 1.5 / 1.2
 float pw = 0.5;
@@ -57,7 +52,6 @@ const int led_pin = 13;     // default to pin 13
 void Timer()
 {
   static boolean output = HIGH;
-  target_Pos+=10;
   
   digitalWrite(led_pin, output);
   digitalWrite(check_pin, output);
@@ -65,14 +59,8 @@ void Timer()
 
   pos_error = target_Pos - encoderPos;
   pos_error_d = pos_error - pos_error_old;
-  
-  pos_error_sum += pos_error;
-  pos_error_sum = (pos_error_sum > 50) ? 50 : pos_error_sum;
-  pos_error_sum = (pos_error_sum < -50) ? -50: pos_error_sum;
-  if(fabs(pos_error)<=2) pos_error_sum = 0;
 
   pos_pid_control();
-//pid
 
   angular_speed = encoderPos - encoderPos_old;
   angular_speed_error = target_angular_speed - angular_speed;
@@ -82,10 +70,9 @@ void Timer()
   
   angular_speed_error_sum = (angular_speed_error_sum > 100) ? 100 : angular_speed_error_sum;
   angular_speed_error_sum = (angular_speed_error_sum < -100) ? -100 : angular_speed_error_sum;
-  
-  angular_speed_pid_control();
-//angular pid
 
+  angular_speed_pid_control();
+  
   angular_speed_old = angular_speed;
   encoderPos_old = encoderPos;
   pos_error_old = pos_error;
@@ -104,33 +91,21 @@ int angular_speed_pid_control(void){
 
   angular_speed_pid_pwm += inverse_speed_mode();
 
-  if(target_Pos == 0){
-    if(angular_speed_pid_pwm > 0)
-    {
-      motor_control(1, angular_speed_pid_pwm);
-    }
+  if(angular_speed_pid_pwm > 0)
+  {
+    motor_control(1, angular_speed_pid_pwm);
+  }
   
-    else if (angular_speed_pid_pwm < 0){
+  else{
     motor_control(-1, -angular_speed_pid_pwm);
-    }
   }
 }
 
 int pos_pid_control(void){
-  pos_pid_pwm = P * pos_error + Pd * pos_error_d + Pi *pos_error_sum ;
+  pos_pid_pwm = pw * angular_speed_error + pw_d * angular_speed_error_d;
 
   pos_pid_pwm = (pos_pid_pwm >= 255) ? 255 : pos_pid_pwm;
   pos_pid_pwm = (pos_pid_pwm <= -255) ? -255 : pos_pid_pwm;
-
-  if(target_Pos != 0 && target_angular_speed == 0){
-    if(pos_pid_pwm > 0)
-    {
-      motor_control(1, pos_pid_pwm);
-    }
-    else if(pos_pid_pwm < 0){
-      motor_control(-1, -pos_pid_pwm);
-    }
-  }
 }
 
 int dead_zone_pwm_correction(int input_pwm){
@@ -202,32 +177,20 @@ void setup()
   MsTimer2::start();
   interrupt_setup();
   Serial.begin(115200);
-  target_Pos = 0;
+  
+  target_Pos = 500;
 }
 
 void loop()
 {
-//  target_angular_speed = -20;
-//  Serial.print(angular_speed);
-//  Serial.print(", ");
-//  Serial.print(angular_speed_error);
-//  Serial.print(", ");
-//  Serial.print(angular_speed_error_d);
-//  Serial.print(", ");
-//  Serial.print(angular_speed_error_sum);
-//  Serial.print(", ");
-//  Serial.println(angular_speed_pid_pwm);
-//  Serial.print(target_Pos);
-//  Serial.print(", ");
-//  Serial.println(target_angular_speed);
-  
-  Serial.print(encoderPos);
-  Serial.print(",");
-  Serial.print(pos_error);
-  Serial.print(",");
-  Serial.print(target_Pos);
-  Serial.print(",");
-  Serial.print(pos_pid_pwm);
-  Serial.print(",");
-  Serial.println(pos_error_sum);
+  //target_angular_speed = 30;
+  Serial.print(angular_speed);
+  Serial.print(", ");
+  Serial.print(angular_speed_error);
+  Serial.print(", ");
+  Serial.print(angular_speed_error_d);
+  Serial.print(", ");
+  Serial.print(angular_speed_error_sum);
+  Serial.print(", ");
+  Serial.println(angular_speed_pid_pwm);
 }
