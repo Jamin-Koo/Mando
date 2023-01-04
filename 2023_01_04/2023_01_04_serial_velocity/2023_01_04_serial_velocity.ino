@@ -132,7 +132,6 @@ int pos_pid_control(void){
   
   if(velocity_mm != 0){
     pos_pid_pwm = abs(pos_pid_pwm) > abs(velocity_mm) ? velocity_mm : pos_pid_pwm ;
-    Serial.println(pos_pid_pwm);
   }
 
   if(target_Pos != 0 && target_angular_speed == 0){
@@ -402,9 +401,12 @@ void loop() {
 
     
  }
-//  Serial.print(encoderPos);
-//  Serial.print(",");
-//  Serial.println(pos_error);
+ Serial.print("encoderPos : ");
+  Serial.print(encoderPos);
+  Serial.print(", pos_error : ");
+  Serial.print(pos_error);
+  Serial.print(", pos_pid_pwm : ");
+  Serial.println(pos_pid_pwm);
 }
 
 //ex) (s)(motordirection)(speed) , __sr040__
