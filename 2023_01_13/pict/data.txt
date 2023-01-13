@@ -1,0 +1,6 @@
+DM : eco1, eco2, comport, sport, crazy
+RE: 1, 2, 3, 4, off
+SH: 1, 2, 3, off
+HH: 1, 2, 3, off
+AL: Red, Blue, White, Pink, Yellow
+Wiper: Auto, 1, 2, 3, off
