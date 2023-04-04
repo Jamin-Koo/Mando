@@ -24,30 +24,20 @@ void receiveFromMaster() {
   char Start;
     // 수신 버퍼 읽기
   Start = Wire.read();
-  if(Start == 's'){
-    for(int i = 0; i<BYTES; i++){
-      ch[i] = Wire.read();
-      if(ch[i] == 'e') break;
-      //Serial.print(i);
-      //Serial.print(" : ");
-      Serial.print(ch[i]);
-      Serial.print("  ");
-    }
-    Serial.println();
-    //ch[data] = Wire.read();
-    
-//    if(ch[data] == 'e') {
-//      data --;
-//      init_buffer();
+  Serial.println(Start);
+//  if(Start == 's'){
+//    for(int i = 0; i<BYTES; i++){
+//      ch[i] = Wire.read();
+//      if(ch[i] == 'e') break;
+//      //Serial.print(i);
+//      //Serial.print(" : ");
+//      Serial.print(ch[i]);
+//      Serial.print("  ");
 //    }
-//    data++;
-//    if(data > 8) {
-//      data %= 8;
-//      Serial.println(" ");
-//    }
-  }
-  init_buffer();
-}
+//    Serial.println();
+//  }
+//  init_buffer();
+}  
 
 void sendToMaster() {
   // 자신의 슬레이브 주소를 담은 메세지를 마스터에게 보냅니다. 슬레이브 주소에 맞게 수정해야 합니다.
