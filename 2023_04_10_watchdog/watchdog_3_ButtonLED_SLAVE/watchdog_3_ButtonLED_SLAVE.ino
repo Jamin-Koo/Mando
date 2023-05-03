@@ -33,7 +33,7 @@ void loop() {
 void receiveFromMaster() {
   digitalWrite(LED_PIN, LOW);
   WCD_Flag = Wire.read();
-  if (WCD_Flag == 0){
+  if (WCD_Flag == 1){
     wdt_reset();
     digitalWrite(LED_PIN, HIGH);
     digitalWrite(LED_PIN_WDTOUT, LOW);
