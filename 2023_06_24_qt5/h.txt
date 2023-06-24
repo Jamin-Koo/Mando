@@ -1,0 +1,45 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QtSerialPort/QSerialPort>
+//#include <qserialportinfo.h>
+#include <QDebug>
+
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+public slots:
+    void setTextDecimal(void);
+    void openPort_2(void);
+    void closePort(void);
+
+private:
+    Ui::MainWindow *ui;
+
+    QSerialPort *pPort;
+
+    struct DATA{
+            unsigned char data_array1;
+        };
+
+    union
+        {
+            uint16_t data;
+            uint8_t arr[2];
+        }ADC;
+
+};
+
+
+#endif // MAINWINDOW_H

@@ -1,0 +1,70 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <math.h>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+
+    pPort=new QSerialPort(this);
+
+    QObject::connect(ui->openPB,SIGNAL(clicked()),this,SLOT(openPort_2()));
+    QObject::connect(ui->stopPB,SIGNAL(clicked()),this,SLOT(closePort()));
+    connect(ui->sppedPB,SIGNAL(clicked()),this,SLOT(setTextDecimal()));
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::setTextDecimal(void)
+{
+    // 문자열을 저장할 QString 객체 myStr, myStr2 생성
+    QString myStr = 0;
+    // QLineEdit 객체에 입력된 문자열을 myStr 변수에 저장
+    myStr+=ui->speedLE->text();
+
+    // 데이터를 전송하기 위한 DATA 구조체 생성
+    DATA *send = new DATA;
+    // send 구조체의 data_array1 변수에 myStr2 값을 double 형으로 변환하여 저장
+    send->data_array1 = (unsigned char)myStr.toDouble();
+
+    // send 구조체의 포인터를 char 형으로 캐스팅하여 packet 변수에 저장
+    auto packet = reinterpret_cast<char*>(send);
+    // packet의 크기를 구조체의 크기로 설정하여 데이터 전송
+    pPort->write(packet,sizeof (DATA));
+    // 디버그용 출력문
+    qDebug()<<"\n send Data";
+    qDebug() <<myStr;
+    // send 구조체 삭제
+    delete send;
+}
+
+void MainWindow::openPort_2()
+{
+    QString portName=ui->usbCB->currentText();
+    QString portBaud = ui->baudCB->currentText();
+    pPort->setPortName(portName);//or ttyACM1, check qDebug Message.
+
+    QSerialPort::BaudRate baudRate = static_cast<QSerialPort::BaudRate>(portBaud.toInt());
+    pPort->setBaudRate(baudRate);//changed BaudRate
+    //pPort->setBaudRate(QSerialPort::Baud115200);
+
+    pPort->setDataBits(QSerialPort::Data8);
+    pPort->setParity(QSerialPort::NoParity);
+    if(!(pPort->open(QIODevice::ReadWrite)))
+    qDebug()<<"\n Serial Port Open Error";
+    else
+    qDebug()<<"\n Serial Port Open Success";
+
+}
+
+void MainWindow::closePort()
+{
+    pPort->close();
+    qDebug()<<"\n Serial Port close close";
+}
+
