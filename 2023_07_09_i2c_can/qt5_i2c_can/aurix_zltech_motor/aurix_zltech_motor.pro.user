@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.9.2, 2023-07-03T03:05:20. -->
+<!-- Written by QtCreator 4.9.2, 2023-07-09T13:13:24. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -305,7 +305,7 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">aurix_zltech_motor</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">aurix_zltech_motor2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/a/Downloads/Mando-main(2)/Mando-main/2023_07_02_i2c_can/aurix_zltech_motor_modbus_QT5/aurix_zltech_motor/aurix_zltech_motor.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/a/Desktop/aurix_zltech_motor_modbus_QT5/aurix_zltech_motor/aurix_zltech_motor.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>

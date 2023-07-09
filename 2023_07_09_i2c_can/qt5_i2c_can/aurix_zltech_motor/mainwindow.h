@@ -44,7 +44,7 @@ private:
             uint8_t data_array1;
         };
 
-    uint8_t dataArray[3] = {0,};
+    uint8_t dataArray[8] = {0,};
         union
         {
             uint16_t data;

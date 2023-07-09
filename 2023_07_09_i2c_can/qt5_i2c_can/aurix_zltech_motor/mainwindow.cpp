@@ -103,15 +103,20 @@ void MainWindow::speedMode(void)
 
 
            send_value.data = Speednum;
-           dataArray[0] = selectCB_Button;
-           dataArray[1] = send_value.a[0];
-           dataArray[2] = send_value.a[1];
-           uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 3);
-           dataArray[3] = crc & 0xFF;
-           dataArray[4] = (crc >> 8) & 0xFF;
+
+           dataArray[0] = 115;
+           dataArray[1] = selectCB_Button;
+           dataArray[2] = send_value.a[0];
+           dataArray[3] = send_value.a[1];
+           dataArray[4] = 0;
+           uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 5);
+           dataArray[5] = crc & 0xFF;
+           dataArray[6] = (crc >> 8) & 0xFF;
+           dataArray[7] = 101;
+
            QByteArray sendData;
            QDataStream stream(&sendData, QIODevice::WriteOnly);
-           stream.writeRawData(reinterpret_cast<const char*>(dataArray),5 * sizeof(char));
+           stream.writeRawData(reinterpret_cast<const char*>(dataArray),8 * sizeof(char));
            pPort->write(sendData); // 시리얼 포트를 통해 데이터를 전송합니다.
 
 
@@ -152,15 +157,18 @@ void MainWindow::positionMode(void)
 //        // 디버그용 출력문
 
         send_value.data = Positionnum;
-        dataArray[0] = selectCB_Button;
-        dataArray[1] = send_value.a[0];
-        dataArray[2] = send_value.a[1];
-        uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 3);
-        dataArray[3] = crc & 0xFF;
-        dataArray[4] = (crc >> 8) & 0xFF;
+        dataArray[0] = 115;
+        dataArray[1] = selectCB_Button;
+        dataArray[2] = send_value.a[0];
+        dataArray[3] = send_value.a[1];
+        dataArray[4] = 0;
+        uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 5);
+        dataArray[5] = crc & 0xFF;
+        dataArray[6] = (crc >> 8) & 0xFF;
+        dataArray[7] = 101;
         QByteArray sendData;
         QDataStream stream(&sendData, QIODevice::WriteOnly);
-        stream.writeRawData(reinterpret_cast<const char*>(dataArray),5 * sizeof(char));
+        stream.writeRawData(reinterpret_cast<const char*>(dataArray),8 * sizeof(char));
         pPort->write(sendData); // 시리얼 포트를 통해 데이터를 전송합니다.
 
         qDebug()<<"\n send Data";
@@ -179,15 +187,18 @@ void MainWindow::speedStop(void)
         ui->SpeedLE->setText(QString::number(Speednum));
 
         send_value.data = Speednum;
-        dataArray[0] = selectCB_Button;
-        dataArray[1] = send_value.a[0];
-        dataArray[2] = send_value.a[1];
-        uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 3);
-        dataArray[3] = crc & 0xFF;
-        dataArray[4] = (crc >> 8) & 0xFF;
+        dataArray[0] = 115;
+        dataArray[1] = selectCB_Button;
+        dataArray[2] = send_value.a[0];
+        dataArray[3] = send_value.a[1];
+        dataArray[4] = 0;
+        uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 5);
+        dataArray[5] = crc & 0xFF;
+        dataArray[6] = (crc >> 8) & 0xFF;
+        dataArray[7] = 101;
         QByteArray sendData;
         QDataStream stream(&sendData, QIODevice::WriteOnly);
-        stream.writeRawData(reinterpret_cast<const char*>(dataArray),5 * sizeof(char));
+        stream.writeRawData(reinterpret_cast<const char*>(dataArray),8 * sizeof(char));
         pPort->write(sendData); // 시리얼 포트를 통해 데이터를 전송합니다.
 
 
@@ -209,15 +220,18 @@ void MainWindow::positionStop(void)
         ui->PositionLE->setText(QString::number(Positionnum));
 
         send_value.data = Positionnum;
-        dataArray[0] = selectCB_Button;
-        dataArray[1] = send_value.a[0];
-        dataArray[2] = send_value.a[1];
-        uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 3);
-        dataArray[3] = crc & 0xFF;
-        dataArray[4] = (crc >> 8) & 0xFF;
+        dataArray[0] = 115;
+        dataArray[1] = selectCB_Button;
+        dataArray[2] = send_value.a[0];
+        dataArray[3] = send_value.a[1];
+        dataArray[4] = 0;
+        uint16_t crc = CRC16_MODBUS(reinterpret_cast<const uint8_t*>(dataArray), 5);
+        dataArray[5] = crc & 0xFF;
+        dataArray[6] = (crc >> 8) & 0xFF;
+        dataArray[7] = 101;
         QByteArray sendData;
         QDataStream stream(&sendData, QIODevice::WriteOnly);
-        stream.writeRawData(reinterpret_cast<const char*>(dataArray),5 * sizeof(char));
+        stream.writeRawData(reinterpret_cast<const char*>(dataArray),8 * sizeof(char));
         pPort->write(sendData); // 시리얼 포트를 통해 데이터를 전송합니다.
 
         qDebug()<<"\n send Data";
