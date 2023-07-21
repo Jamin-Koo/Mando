@@ -75,12 +75,22 @@ void TF_base_link_map_map(Point2D* base_link_map_point2d, Pose2D base_link_origi
 	printf("\n                     TF_base_link_map      : %6.3lf  %6.3lf\n", base_link_map_Point2D.x, base_link_map_Point2D.y);
 	base_link_map_point2d->x = base_link_map_point2d->x + base_link_origin.x;
 	base_link_map_point2d->y = base_link_map_point2d->y + base_link_origin.y;
-	printf("             TF_base_link_map --> map      : %6.3lf  %6.3lf\n\n", base_link_map_Point2D.x, base_link_map_Point2D.y);
+	printf("             TF_base_link_map --> map      : %6.3lf  %6.3lf\n\n", base_link_map_point2d->x, base_link_map_point2d->y);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //baselinkMap -> baselink
+
+
+void TF_map_base_link_map(Point2D* base_link_Point2D, Point2D* base_link_map_point2d, Pose2D base_link_origin) {
+	printf("\n ========TF map -> base_link_map============================ \n");
+	printf("                               TF map      : %6.3lf  %6.3lf\n", base_link_map_point2d->x, base_link_map_point2d->y);
+	base_link_map_point2d->x = base_link_map_point2d->x - base_link_origin.x;
+	base_link_map_point2d->y = base_link_map_point2d->y - base_link_origin.y;
+	printf("              TF map -> base_link_map      : %6.3lf  %6.3lf\n\n", base_link_map_point2d->x, base_link_map_point2d->y);
+}
+
 
 void TF_base_link_map_base_link(Point2D* base_link_Point2D, Point2D* base_link_map_point2d, Pose2D base_link_origin) {
 	set_rotation_matrix_inverse(base_link_origin.theta);
@@ -89,14 +99,6 @@ void TF_base_link_map_base_link(Point2D* base_link_Point2D, Point2D* base_link_m
 	base_link_Point2D->x = (Rotation_matrix_inverse[0][0] * base_link_map_point2d->x) + (Rotation_matrix_inverse[0][1] * base_link_map_point2d->y);
 	base_link_Point2D->y = (Rotation_matrix_inverse[1][0] * base_link_map_point2d->x) + (Rotation_matrix_inverse[1][1] * base_link_map_point2d->y);
 	printf(" TF_base_link_map  -->  map_base_link      : %6.3lf  %6.3lf\n\n", base_link_Point2D->x, base_link_Point2D->y);
-}
-
-void TF_map_base_link_map(Point2D* base_link_Point2D, Point2D* base_link_map_point2d, Pose2D base_link_origin) {
-	printf("\n ========TF map -> base_link_map============================ \n");
-	printf("                               TF map      : %6.3lf  %6.3lf\n", base_link_map_point2d->x, base_link_map_point2d->y);
-	base_link_map_point2d->x = base_link_map_point2d->x - base_link_origin.x;
-	base_link_map_point2d->y = base_link_map_point2d->y - base_link_origin.y;
-	printf("              TF map -> base_link_map      : %6.3lf  %6.3lf\n\n", base_link_map_point2d->x, base_link_map_point2d->y);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
